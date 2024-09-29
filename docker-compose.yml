@@ -1,0 +1,23 @@
+services:
+  app:
+    image: node:22.9.0-slim
+    command: sh -c "npm ci && npm run dev"
+    working_dir: /src
+    volumes:
+      - ./:/src
+    ports:
+      - 127.0.0.1:8080:8080
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - books-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: books
+    ports:
+      - "3309:3306"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  books-mysql-data:
